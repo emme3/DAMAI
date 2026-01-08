@@ -6,6 +6,11 @@
   <title>AVI 2026 Workshop — Distributed Agency and Multimodal AI Interfaces</title>
   <meta name="description" content="AVI 2026 Workshop: Distributed Agency and Multimodal AI Interfaces — Meaning, Human-Centric Implications, and Pathways to Design and Implementation." />
 
+  <!-- Basic social preview (optional but good practice) -->
+  <meta property="og:title" content="AVI 2026 Workshop — Distributed Agency and Multimodal AI Interfaces" />
+  <meta property="og:description" content="Meaning, Human-Centric Implications, and Pathways to Design and Implementation." />
+  <meta property="og:type" content="website" />
+
   <style>
     :root{
       --bg: #ffffff;
@@ -15,10 +20,14 @@
       --soft:#f9fafb;
       --brand:#111827;
       --link:#0f766e;
+      --link2:#0b5b55;
       --max: 980px;
       --radius: 14px;
-      --shadow: 0 8px 24px rgba(0,0,0,.07);
+      --shadow: 0 10px 30px rgba(0,0,0,.07);
+      --shadow2: 0 6px 18px rgba(0,0,0,.06);
+      --focus: 0 0 0 3px rgba(15,118,110,.25);
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
@@ -26,16 +35,37 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       background: var(--bg);
       color: var(--text);
-      line-height:1.6;
+      line-height:1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
     a{color: var(--link); text-decoration: none}
-    a:hover{text-decoration: underline}
+    a:hover{color: var(--link2); text-decoration: underline}
+    a:focus-visible, button:focus-visible{outline:none; box-shadow: var(--focus); border-radius:10px}
+
+    /* Accessibility: skip link */
+    .skip-link{
+      position:absolute;
+      left:-9999px;
+      top: 10px;
+      padding:10px 12px;
+      background:#111827;
+      color:#fff;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+    .skip-link:focus{left: 12px;}
+
     .wrap{max-width:var(--max); margin:0 auto; padding: 0 18px;}
+    .main{padding-bottom: 26px;}
+
     .nav{
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.92);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
@@ -52,33 +82,48 @@
       color: var(--brand);
       font-weight: 900;
       letter-spacing: .2px;
+      white-space: nowrap;
     }
     .brand-badge{
       width: 34px; height: 34px; border-radius: 10px;
       background: linear-gradient(135deg, #0f766e, #111827);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow2);
       flex: 0 0 auto;
     }
-    .links{display:flex; gap:10px; flex-wrap:wrap}
+
+    .links{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
     .links a{
       color: var(--muted);
       font-weight: 650;
       padding: 8px 10px;
       border-radius: 999px;
+      transition: background .15s ease, color .15s ease;
     }
     .links a:hover{
       color: var(--text);
       background: var(--soft);
       text-decoration:none;
     }
+    .links a[aria-current="page"]{
+      color: var(--text);
+      background: #ecfeff;
+      border: 1px solid #cffafe;
+      text-decoration:none;
+    }
 
-    /* Header image like the example page (simple, wide, top) */
+    /* Header image */
     .hero{
       margin: 16px auto 0;
     }
     .hero img{
       width: 100%;
-      height: 260px;
+      height: 320px;
       object-fit: cover;
       border-radius: var(--radius);
       border: 1px solid var(--line);
@@ -86,28 +131,44 @@
       box-shadow: var(--shadow);
       display:block;
     }
+    @media (max-width: 600px){
+      .hero img{height: 240px;}
+    }
 
+    .img-credit{
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+    .img-credit a{color: var(--link);}
+
+    /* Typography */
     h1{
-      font-size: clamp(28px, 4vw, 40px);
-      margin: 18px 0 8px;
-      letter-spacing: -.4px;
-      line-height:1.15;
+      font-size: clamp(30px, 4vw, 44px);
+      margin: 18px 0 10px;
+      letter-spacing: -.5px;
+      line-height:1.12;
+      max-width: 26ch;
     }
     .subtitle{
       font-size: 16px;
       color: var(--muted);
       margin: 0 0 10px;
       font-weight: 650;
+      max-width: 80ch;
     }
     .introline{
       margin: 6px 0 0;
       color: var(--text);
       font-weight: 650;
+      max-width: 85ch;
     }
+
     hr.sep{
       border:0;
       border-top: 1px solid var(--line);
-      margin: 18px 0;
+      margin: 20px 0;
     }
 
     .section-title{
@@ -116,7 +177,7 @@
       letter-spacing: -.2px;
     }
 
-    /* Highlights strip (logos) */
+    /* Highlights strip */
     .highlights{
       display:flex;
       gap: 14px;
@@ -141,7 +202,19 @@
       font-weight: 700;
     }
 
-    /* Table like the example */
+    /* Content block */
+    .block{
+      padding: 16px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow2);
+    }
+    .note{color: var(--muted)}
+    .bullets{margin: 10px 0 0; padding-left: 18px;}
+    .bullets li{margin: 6px 0}
+
+    /* Table */
     table{
       width:100%;
       border-collapse: collapse;
@@ -166,22 +239,59 @@
       font-size: 14px;
     }
     tbody tr:last-child td{border-bottom:0}
-    .note{color: var(--muted)}
-    .bullets{margin: 10px 0 0; padding-left: 18px;}
-    .bullets li{margin: 6px 0}
-    .block{
-      padding: 14px 14px;
+
+    /* Pill */
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+      font-weight: 750;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* Speaker/Organizer cards (photo + full bio) */
+    .people{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .person-card{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 14px;
+      align-items:start;
+      padding: 16px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow2);
     }
-
-    /* Organizer “cards” in a simple list style like the example sections */
-    .person h3{
+    @media (max-width: 700px){
+      .person-card{grid-template-columns: 1fr;}
+    }
+    .avatar{
+      width: 140px;
+      height: 140px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      object-fit: cover;
+      display:block;
+    }
+    @media (max-width: 700px){
+      .avatar{width: 120px; height: 120px;}
+    }
+    .person-meta h3{
       margin: 0 0 6px;
-      font-size: 16px;
+      font-size: 17px;
       letter-spacing: -.1px;
+      line-height: 1.25;
     }
     .role{
       color: var(--muted);
@@ -193,8 +303,14 @@
       font-size: 13px;
       margin: 0 0 10px;
     }
+    .bio{
+      margin: 10px 0 0;
+      color: var(--text);
+    }
+    .bio p{margin: 0 0 10px;}
+    .bio p:last-child{margin-bottom:0;}
 
-    /* Gallery (simple masonry-ish grid) */
+    /* Gallery */
     .gallery{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -211,6 +327,7 @@
       background: var(--soft);
       display:block;
     }
+
     footer{
       padding: 26px 0 34px;
       color: var(--muted);
@@ -222,25 +339,13 @@
       padding-top: 14px;
       margin-top: 22px;
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--soft);
-      color: var(--muted);
-      font-weight: 750;
-      font-size: 13px;
-      margin-top: 10px;
-    }
   </style>
 </head>
 
 <body>
-  <!-- NAV like the example (single page anchors) -->
-  <header class="nav">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="nav" role="banner">
     <div class="wrap">
       <div class="nav-inner">
         <a class="brand" href="#top" aria-label="Home">
@@ -260,43 +365,45 @@
     </div>
   </header>
 
+  <main id="content" class="wrap main">
+    <div id="top"></div>
 
     <!-- HEADER IMAGE (CC-BY 4.0) -->
-<figure class="hero">
-  <img
-    src="assets/ai-is-everywhere_yutong-liu_the-bigger-picture_4776x3336.jpg"
-    alt="AI is Everywhere — artwork by Yutong Liu"
-  />
-  <figcaption class="img-credit">
-    <span>
-      <a href="https://www.instagram.com/idunayu/?igshid=Njh0aHU1OTJtdzJ3&utm_source=qr">Yutong Liu</a>
-      &amp;
-      <a href="https://www.adaptcentre.ie/discussai/bigger-picture/">The Bigger Picture</a>
-      /
-      <a href="https://betterimagesofai.org/images?artist=YutongLiu&title=AIisEverywhere">AI is Everywhere</a>
-      /
-      <a href="https://creativecommons.org/licenses/by/4.0/">Licensed under CC BY 4.0</a>
-    </span>
-  </figcaption>
-</figure>
+    <figure class="hero">
+      <img
+        src="assets/ai-is-everywhere_yutong-liu_the-bigger-picture_4776x3336.jpg"
+        alt="AI is Everywhere — artwork by Yutong Liu"
+        loading="eager"
+        decoding="async"
+      />
+      <figcaption class="img-credit">
+        <span>
+          <a href="https://www.instagram.com/idunayu/?igshid=Njh0aHU1OTJtdzJ3&utm_source=qr">Yutong Liu</a>
+          &amp;
+          <a href="https://www.adaptcentre.ie/discussai/bigger-picture/">The Bigger Picture</a>
+          /
+          <a href="https://betterimagesofai.org/images?artist=YutongLiu&title=AIisEverywhere">AI is Everywhere</a>
+          /
+          <a href="https://creativecommons.org/licenses/by/4.0/">Licensed under CC BY 4.0</a>
+        </span>
+      </figcaption>
+    </figure>
 
-
-    <!-- Title + intro line like the example -->
     <h1>Distributed Agency and Multimodal AI Interfaces</h1>
     <p class="subtitle"><strong>Meaning, Human-Centric Implications, and Pathways to Design and Implementation</strong></p>
     <p class="introline">
-      Half-day workshop held in conjunction with <strong>AVI 2026</strong>
-      <!-- Add date/time/location here when final (kept generic to avoid wrong info) -->
+      Half-day workshop held in conjunction with <strong>AVI 2026</strong>.
+      <span class="note"> <!-- TODO: add date/location when confirmed -->
+        (Date/time/location TBA)
+      </span>
     </p>
     <div class="pill">Interactive + discussion-driven • Talks • Futures Triangle activity</div>
 
     <hr class="sep" />
 
-    <!-- Highlights section like the example (logos strip) -->
-    <section id="overview">
-      <h2 class="section-title">Workshop overview</h2>
+    <section id="overview" aria-labelledby="overview-title">
+      <h2 class="section-title" id="overview-title">Workshop overview</h2>
       <div class="highlights" aria-label="Highlights">
-        <!-- Replace these placeholders with real logos/images later (optional) -->
         <div class="logo">AVI 2026</div>
         <div class="logo">Workshop</div>
         <div class="logo">Institution/Project</div>
@@ -332,9 +439,8 @@
 
     <hr class="sep" />
 
-    <!-- Program section like the example: simple table -->
-    <section id="program">
-      <h2 class="section-title">Program</h2>
+    <section id="program" aria-labelledby="program-title">
+      <h2 class="section-title" id="program-title">Program</h2>
       <table aria-label="Workshop program">
         <thead>
           <tr>
@@ -360,26 +466,33 @@
 
     <hr class="sep" />
 
-    <!-- Keynote section like the example -->
-    <section id="keynote">
-      <h2 class="section-title">Keynote speakers</h2>
+    <section id="keynote" aria-labelledby="keynote-title">
+      <h2 class="section-title" id="keynote-title">Keynote speaker</h2>
 
-      <div class="block">
-        <h3 style="margin:0 0 6px;">— Prof. Dr. Luca Viganò</h3>
-        <p class="role" style="margin:0 0 10px;">
-          A creative perspective on agency at the intersection of AI, fairy tales, and the arts
-        </p>
-        <p class="note" style="margin:0;">
-          (Add affiliation and an optional abstract here if/when you want.)
-        </p>
+      <div class="people">
+        <article class="person-card" aria-label="Keynote speaker">
+          <!-- TODO: replace keynote photo path -->
+          <img class="avatar" src="assets/KEYNOTE.jpg" alt="Portrait of Prof. Dr. Luca Viganò" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Prof. Dr. Luca Viganò</h3>
+            <p class="role">Keynote • (TODO: add affiliation)</p>
+            <p class="note" style="margin:0 0 10px;">
+              A creative perspective on agency at the intersection of AI, fairy tales, and the arts.
+            </p>
+
+            <div class="bio">
+              <!-- TODO: paste the FULL keynote bio here -->
+              <p class="note">(Full bio coming soon.)</p>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
     <hr class="sep" />
 
-    <!-- Topics + (Presented papers) section mirroring the “Presented Papers” block -->
-    <section id="topics">
-      <h2 class="section-title">Topics of interest</h2>
+    <section id="topics" aria-labelledby="topics-title">
+      <h2 class="section-title" id="topics-title">Topics of interest</h2>
       <div class="block">
         <p class="note">The workshop invites contributions addressing (but not limited to):</p>
         <ul class="bullets">
@@ -396,7 +509,6 @@
 
         <h3 style="margin:0 0 8px;">Presented papers</h3>
         <p class="note" style="margin:0;">
-          <!-- If you later have a proceedings link, replace this line with it -->
           Accepted contributions will be listed here (coming soon).
         </p>
       </div>
@@ -404,127 +516,152 @@
 
     <hr class="sep" />
 
-    <!-- Organizers section in the same style: names as headers + role + email + bio -->
-    <section id="organizers">
-      <h2 class="section-title">Organizers</h2>
+    <section id="organizers" aria-labelledby="organizers-title">
+      <h2 class="section-title" id="organizers-title">Organizers</h2>
 
-      <div class="block person">
-        <h3>Umberto Domanti</h3>
-        <p class="role">Free University of Bozen-Bolzano • Main contact</p>
-        <p class="email"><a href="mailto:Umberto.Domanti@student.unibz.it">Umberto.Domanti@student.unibz.it</a></p>
-        <p class="note">
-          Umberto Domanti is a second-year PhD student in the Experimental Research through Design, Art, and Technologies program at the Free University of Bozen-Bolzano.
-          He graduated in Applied Cognitive Psychology at the University of Trieste. His interests include the study of episodic and semantic memory, imagination, and creativity,
-          with a particular focus on how these processes contribute to the imagination of alternative pasts or futures. His PhD research lies within Human–Computer Interaction (HCI),
-          drawing on theories and methods from experimental cognitive psychology. He investigates human and artificial creativity by looking at the underlying mechanisms that lead to a
-          potential creative outcome. Moreover, Umberto integrates qualitative methodologies, such as speculative design, to investigate and reflect on the future possibilities of Human-AI
-          Collaboration. He is also a Junior Member within the International Society for the Study of Creativity and Innovation (ISSCI). During the first year of his PhD, Umberto served
-          as Local Chair for the ninth edition of the Marconi Institute for Creativity (MIC) Conference, held in Bolzano.
-        </p>
-      </div>
+      <div class="people">
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/umberto-domanti.jpg -->
+          <img class="avatar" src="assets/people/umberto-domanti.jpg" alt="Portrait of Umberto Domanti" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Umberto Domanti</h3>
+            <p class="role">Free University of Bozen-Bolzano • Main contact</p>
+            <p class="email"><a href="mailto:Umberto.Domanti@student.unibz.it">Umberto.Domanti@student.unibz.it</a></p>
+            <div class="bio">
+              <p>
+                Umberto Domanti is a second-year PhD student in the Experimental Research through Design, Art, and Technologies program at the Free University of Bozen-Bolzano.
+                He graduated in Applied Cognitive Psychology at the University of Trieste. His interests include the study of episodic and semantic memory, imagination, and creativity,
+                with a particular focus on how these processes contribute to the imagination of alternative pasts or futures. His PhD research lies within Human–Computer Interaction (HCI),
+                drawing on theories and methods from experimental cognitive psychology. He investigates human and artificial creativity by looking at the underlying mechanisms that lead to a
+                potential creative outcome. Moreover, Umberto integrates qualitative methodologies, such as speculative design, to investigate and reflect on the future possibilities of Human-AI
+                Collaboration. He is also a Junior Member within the International Society for the Study of Creativity and Innovation (ISSCI). During the first year of his PhD, Umberto served
+                as Local Chair for the ninth edition of the Marconi Institute for Creativity (MIC) Conference, held in Bolzano.
+              </p>
+            </div>
+          </div>
+        </article>
 
-      <hr class="sep" />
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/angela-faiella.jpg -->
+          <img class="avatar" src="assets/people/angela-faiella.jpg" alt="Portrait of Angela Faiella" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Angela Faiella</h3>
+            <p class="role">University of Bologna</p>
+            <div class="bio">
+              <p>
+                Angela Faiella is a Research Fellow at the Marconi Institute for Creativity (MIC), a multidisciplinary research lab at the University of Bologna (Italy), and a subject expert
+                for the university course Cyber-Creativity and Innovation. She is also a member of the AI Task Force within the International Society for the Study of Creativity and Innovation
+                (ISSCI). She obtained her PhD in Cognitive Psychology from the University of Trieste (Italy) in 2023. Her research focuses on the cognitive correlates of creativity and
+                imagination, with a particular interest in human–AI interaction. She investigates how individuals perceive their creative self-beliefs in the context of AI, exploring ways to
+                enhance them. Furthermore, she examines the role of creativity in future thinking, emphasizing its importance for imagining transformative and long-term futures in an era of
+                accelerated responses and decision-making. Angela has also been part of the organizing committee for the Marconi Institute for Creativity Conference, an international event
+                dedicated to creativity research, since 2023.
+              </p>
+            </div>
+          </div>
+        </article>
 
-      <div class="block person">
-        <h3>Angela Faiella</h3>
-        <p class="role">University of Bologna</p>
-        <p class="note">
-          Angela Faiella is a Research Fellow at the Marconi Institute for Creativity (MIC), a multidisciplinary research lab at the University of Bologna (Italy), and a subject expert
-          for the university course Cyber-Creativity and Innovation. She is also a member of the AI Task Force within the International Society for the Study of Creativity and Innovation
-          (ISSCI). She obtained her PhD in Cognitive Psychology from the University of Trieste (Italy) in 2023. Her research focuses on the cognitive correlates of creativity and
-          imagination, with a particular interest in human–AI interaction. She investigates how individuals perceive their creative self-beliefs in the context of AI, exploring ways to
-          enhance them. Furthermore, she examines the role of creativity in future thinking, emphasizing its importance for imagining transformative and long-term futures in an era of
-          accelerated responses and decision-making. Angela has also been part of the organizing committee for the Marconi Institute for Creativity Conference, an international event
-          dedicated to creativity research, since 2023.
-        </p>
-      </div>
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/caterina-moruzzi.jpg -->
+          <img class="avatar" src="assets/people/caterina-moruzzi.jpg" alt="Portrait of Caterina Moruzzi" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Caterina Moruzzi</h3>
+            <p class="role">University of Edinburgh</p>
+            <div class="bio">
+              <p>
+                Caterina Moruzzi is a Chancellor's fellow (tenure-track assistant professor) in the Institute for Design Informatics, University of Edinburgh. Her research lies at the intersection
+                between human and artificial creativity, philosophy of art, and the philosophy of Artificial Intelligence (AI). As BRAID Research Fellow, she is leading a project in collaboration
+                with Adobe to promote the responsible integration of AI tools into creative practices. Caterina actively engages in panel discussions and conferences that convene stakeholders from
+                academia, industry, and policy-making spheres to discuss the impact of AI on the creative sector. To promote interdisciplinary and intersectoral collaborations on the topic, in 2024,
+                she started the research cluster "Creativity, AI, and the Human" at the Edinburgh Futures Institute. Caterina holds a Ph.D. in philosophy from the University of Nottingham (2018)
+                and an artist diploma in piano performance from the Conservatorio G.B. Martini, Bologna (2014). Her scholarly work has been published in journals such as the European Journal for
+                Philosophy of Science, British Journal of Aesthetics, ACM Communication Design Quarterly, Leonardo (MIT Press), IEEE CG&amp;A, as well as in conference proceedings, including the CHI
+                conference on Human Factors in Computing Systems and the International Conference on Computational Creativity (ICCC).
+              </p>
+            </div>
+          </div>
+        </article>
 
-      <hr class="sep" />
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/chiara-natali.jpg -->
+          <img class="avatar" src="assets/people/chiara-natali.jpg" alt="Portrait of Chiara Natali" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Chiara Natali</h3>
+            <p class="role">University of Milano-Bicocca</p>
+            <div class="bio">
+              <p>
+                Chiara Natali is a PhD Candidate in Computer Science at the University of Milano-Bicocca. Her research examines how intentional friction in interaction design (such as cognitive forcing
+                functions and desirable difficulties) can sustain user agency and appropriate reliance in human–AI decision-making, with applications in medical AI and decision support. She has teaching
+                experience in interaction design and HCI (2023-2024), delivered hands-on tutorials on assessing reliance (INTERACT23, HHAI23), and co-organized international workshops on “Frictional AI”
+                (HHAI 2024–2025) and “Algorithmic Authority &amp; AI Influence in Decision Settings” (HAI 2024), alongside service as Proceedings Chair and Publicity Chair for HHAI 2025. Her work has been
+                recognized with the David B. Martin Best Paper Award (ECSCW 2025), Best Paper at the XAI World Conference (2024), and Best Doctoral Consortium Paper at ACM CHItaly (2023). She was awarded
+                the Swiss Government Excellence Scholarship (ESKAS No. 2024.0002) for a year as Visiting Research Fellow at IDSIA (SUPSI), Lugano (2024-2025). She contributes to national and international
+                standardization through UNINFO/UNI CT 533 (Italian mirror to ISO/IEC JTC 1/SC 42), focusing on trustworthiness.
+              </p>
+            </div>
+          </div>
+        </article>
 
-      <div class="block person">
-        <h3>Caterina Moruzzi</h3>
-        <p class="role">University of Edinburgh</p>
-        <p class="note">
-          Caterina Moruzzi is a Chancellor's fellow (tenure-track assistant professor) in the Institute for Design Informatics, University of Edinburgh. Her research lies at the intersection
-          between human and artificial creativity, philosophy of art, and the philosophy of Artificial Intelligence (AI). As BRAID Research Fellow, she is leading a project in collaboration
-          with Adobe to promote the responsible integration of AI tools into creative practices. Caterina actively engages in panel discussions and conferences that convene stakeholders from
-          academia, industry, and policy-making spheres to discuss the impact of AI on the creative sector. To promote interdisciplinary and intersectoral collaborations on the topic, in 2024,
-          she started the research cluster "Creativity, AI, and the Human" at the Edinburgh Futures Institute. Caterina holds a Ph.D. in philosophy from the University of Nottingham (2018)
-          and an artist diploma in piano performance from the Conservatorio G.B. Martini, Bologna (2014). Her scholarly work has been published in journals such as the European Journal for
-          Philosophy of Science, British Journal of Aesthetics, ACM Communication Design Quarterly, Leonardo (MIT Press), IEEE CG&A, as well as in conference proceedings, including the CHI
-          conference on Human Factors in Computing Systems and the International Conference on Computational Creativity (ICCC).
-        </p>
-      </div>
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/anna-rezk-parker.jpg -->
+          <img class="avatar" src="assets/people/anna-rezk-parker.jpg" alt="Portrait of Anna Rezk-Parker" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Anna Rezk-Parker</h3>
+            <p class="role">University of Glasgow</p>
+            <div class="bio">
+              <p>
+                Anna Rezk-Parker is a Postdoctoral Research Associate in Computer Science at the University of Glasgow, working on developing tools and methodologies for users to engage in participatory audits
+                of search and information retrieval systems as part of the Responsible AI UK-funded PHAWM project. Her research interests include recommender systems, personalization, AI in media and journalism,
+                auditing for responsible AI, and designing for user agency. Previously, she completed her PhD in Design Informatics at the University of Edinburgh in collaboration with the BBC R&amp;D, funded by the
+                Arts and Humanities Research Council. In her interdisciplinary research practice, she examines how user agency can contribute to addressing challenges that arise in automated systems, which are paradoxically
+                designed to relieve users of agency. Her work has been published at various ACM venues and has been recognized with an Honorable Mention award at CHI and a Best Paper award at ICIDS. As a researcher on the
+                Right 2 Roam project at Abertay University, she conducted community-driven social justice research through serious game workshops to inform evidence-based urban design policy. She also contributed to the Fixing
+                the Future project, developing Right to Repair ideation cards as an awareness-building tool about IoT device repair laws in the UK and EU.
+              </p>
+            </div>
+          </div>
+        </article>
 
-      <hr class="sep" />
-
-      <div class="block person">
-        <h3>Chiara Natali</h3>
-        <p class="role">University of Milano-Bicocca</p>
-        <p class="note">
-          Chiara Natali is a PhD Candidate in Computer Science at the University of Milano-Bicocca. Her research examines how intentional friction in interaction design (such as cognitive forcing
-          functions and desirable difficulties) can sustain user agency and appropriate reliance in human–AI decision-making, with applications in medical AI and decision support. She has teaching
-          experience in interaction design and HCI (2023-2024), delivered hands-on tutorials on assessing reliance (INTERACT23, HHAI23), and co-organized international workshops on “Frictional AI”
-          (HHAI 2024–2025) and “Algorithmic Authority & AI Influence in Decision Settings” (HAI 2024), alongside service as Proceedings Chair and Publicity Chair for HHAI 2025. Her work has been
-          recognized with the David B. Martin Best Paper Award (ECSCW 2025), Best Paper at the XAI World Conference (2024), and Best Doctoral Consortium Paper at ACM CHItaly (2023). She was awarded
-          the Swiss Government Excellence Scholarship (ESKAS No. 2024.0002) for a year as Visiting Research Fellow at IDSIA (SUPSI), Lugano (2024-2025). She contributes to national and international
-          standardization through UNINFO/UNI CT 533 (Italian mirror to ISO/IEC JTC 1/SC 42), focusing on trustworthiness.
-        </p>
-      </div>
-
-      <hr class="sep" />
-
-      <div class="block person">
-        <h3>Anna Rezk-Parker</h3>
-        <p class="role">University of Glasgow</p>
-        <p class="note">
-          Anna Rezk-Parker is a Postdoctoral Research Associate in Computer Science at the University of Glasgow, working on developing tools and methodologies for users to engage in participatory audits
-          of search and information retrieval systems as part of the Responsible AI UK-funded PHAWM project. Her research interests include recommender systems, personalization, AI in media and journalism,
-          auditing for responsible AI, and designing for user agency. Previously, she completed her PhD in Design Informatics at the University of Edinburgh in collaboration with the BBC R&D, funded by the
-          Arts and Humanities Research Council. In her interdisciplinary research practice, she examines how user agency can contribute to addressing challenges that arise in automated systems, which are paradoxically
-          designed to relieve users of agency. Her work has been published at various ACM venues and has been recognized with an Honorable Mention award at CHI and a Best Paper award at ICIDS. As a researcher on the
-          Right 2 Roam project at Abertay University, she conducted community-driven social justice research through serious game workshops to inform evidence-based urban design policy. She also contributed to the Fixing
-          the Future project, developing Right to Repair ideation cards as an awareness-building tool about IoT device repair laws in the UK and EU.
-        </p>
-      </div>
-
-      <hr class="sep" />
-
-      <div class="block person">
-        <h3>Mario Mirabile</h3>
-        <p class="role">University of Santiago de Compostela; University of Bologna</p>
-        <p class="note">
-          Mario Mirabile is a Research Fellow at the University of Bologna, Italy. He is pursuing a PhD in Information Technology at the University of Santiago de Compostela (USC), Spain. He is currently developing
-          trust-aware multi-agent systems designed to improve financial literacy and support individual and collective empowerment. His research interests focus on Trustworthy Artificial Intelligence, multi-agent systems,
-          socio-technical governance, human-AI interaction, finance, and creativity. Mario is a Research Fellow at the Future Impact Group + Oxford Martin AI Governance Initiative (2025-present), a member of the Italian
-          Association for Artificial Intelligence (2025-present), a member of the Coalition for Independent Technology Research (2023-present), and the Executive Officer & Secretary of the International Political Science
-          Association (2021-present). He served at a European tech-policy research center (2024), contributing to high-profile studies for the European Commission on AI and digitalization. He held research roles at the
-          Centro Singular de Investigación en Tecnoloxías Intelixentes (CiTIUS) in Spain (2024) and senior AI consulting positions (2023-2024), with applied experience in computer vision and human–machine interfaces for
-          industry. As co-founder and Executive Vice-President of “South Working - Lavorare dal Sud” (2020-present), he led national innovation initiatives and contributed to policy on digital infrastructure and remote work.
-          He also advised the Italian Ministry of Culture (2021-2022) as an invited expert, shaping digital transformation initiatives that impacted over 2,000 local administrations. His work has been featured in more than
-          600 media pieces (e.g., BBC, Financial Times, Deutsche Welle, Corriere della Sera).
-        </p>
+        <article class="person-card">
+          <!-- TODO: add organizer photo at assets/people/mario-mirabile.jpg -->
+          <img class="avatar" src="assets/people/mario-mirabile.jpg" alt="Portrait of Mario Mirabile" loading="lazy" decoding="async" />
+          <div class="person-meta">
+            <h3>Mario Mirabile</h3>
+            <p class="role">University of Santiago de Compostela; University of Bologna</p>
+            <div class="bio">
+              <p>
+                Mario Mirabile is a Research Fellow at the University of Bologna, Italy. He is pursuing a PhD in Information Technology at the University of Santiago de Compostela (USC), Spain. He is currently developing
+                trust-aware multi-agent systems designed to improve financial literacy and support individual and collective empowerment. His research interests focus on Trustworthy Artificial Intelligence, multi-agent systems,
+                socio-technical governance, human-AI interaction, finance, and creativity. Mario is a Research Fellow at the Future Impact Group + Oxford Martin AI Governance Initiative (2025-present), a member of the Italian
+                Association for Artificial Intelligence (2025-present), a member of the Coalition for Independent Technology Research (2023-present), and the Executive Officer &amp; Secretary of the International Political Science
+                Association (2021-present). He served at a European tech-policy research center (2024), contributing to high-profile studies for the European Commission on AI and digitalization. He held research roles at the
+                Centro Singular de Investigación en Tecnoloxías Intelixentes (CiTIUS) in Spain (2024) and senior AI consulting positions (2023-2024), with applied experience in computer vision and human–machine interfaces for
+                industry. As co-founder and Executive Vice-President of “South Working - Lavorare dal Sud” (2020-present), he led national innovation initiatives and contributed to policy on digital infrastructure and remote work.
+                He also advised the Italian Ministry of Culture (2021-2022) as an invited expert, shaping digital transformation initiatives that impacted over 2,000 local administrations. His work has been featured in more than
+                600 media pieces (e.g., BBC, Financial Times, Deutsche Welle, Corriere della Sera).
+              </p>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
     <hr class="sep" />
 
-    <!-- Gallery section like the example (optional) -->
-    <section id="gallery">
-      <h2 class="section-title">Gallery</h2>
+    <section id="gallery" aria-labelledby="gallery-title">
+      <h2 class="section-title" id="gallery-title">Gallery</h2>
       <p class="note">Optional — add photos after the workshop. Put images in <code>assets/gallery/</code> and update filenames.</p>
       <div class="gallery" aria-label="Gallery grid">
-        <img src="assets/gallery/img1.jpg" alt="Gallery image 1" />
-        <img src="assets/gallery/img2.jpg" alt="Gallery image 2" />
-        <img src="assets/gallery/img3.jpg" alt="Gallery image 3" />
-        <img src="assets/gallery/img4.jpg" alt="Gallery image 4" />
-        <img src="assets/gallery/img5.jpg" alt="Gallery image 5" />
-        <img src="assets/gallery/img6.jpg" alt="Gallery image 6" />
+        <img src="assets/gallery/img1.jpg" alt="Gallery image 1" loading="lazy" decoding="async" />
+        <img src="assets/gallery/img2.jpg" alt="Gallery image 2" loading="lazy" decoding="async" />
+        <img src="assets/gallery/img3.jpg" alt="Gallery image 3" loading="lazy" decoding="async" />
+        <img src="assets/gallery/img4.jpg" alt="Gallery image 4" loading="lazy" decoding="async" />
+        <img src="assets/gallery/img5.jpg" alt="Gallery image 5" loading="lazy" decoding="async" />
+        <img src="assets/gallery/img6.jpg" alt="Gallery image 6" loading="lazy" decoding="async" />
       </div>
     </section>
 
-    <!-- Footer like the example: Email + copyright -->
-    <footer id="contact">
+    <footer id="contact" role="contentinfo">
       <div class="footerline">
         <div>
           <strong>Email</strong><br/>
@@ -538,7 +675,30 @@
   </main>
 
   <script>
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Lightweight scrollspy: highlights nav item for the section in view
+    const navLinks = Array.from(document.querySelectorAll('.links a'));
+    const sections = navLinks
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      navLinks.forEach(a => {
+        const href = a.getAttribute('href');
+        if (href === '#' + id) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+    };
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+
+    sections.forEach(sec => obs.observe(sec));
   </script>
 </body>
 </html>
