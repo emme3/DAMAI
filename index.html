@@ -298,6 +298,17 @@
       object-fit: cover;
       display:block;
     }
+
+/* === Keynote avatar: taller box + full image visible === */
+.person-card[aria-label="Keynote speaker"] .avatar{
+  width: 140px;
+  height: 180px;            /* taller than organizers */
+  object-fit: contain;     /* show full image */
+  object-position: center;
+  background: var(--soft); /* letterboxing background */
+}
+
+    
     @media (max-width: 700px){
       .avatar{width: 120px; height: 120px;}
     }
